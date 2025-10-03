@@ -12,6 +12,59 @@ import ast
 import math
 from matplotlib import pyplot as plt
 import seaborn as sns
+from sklearn.model_selection import train_test_split
+
+
+def balanced_train_test_split(df, target_column, test_size=0.5, random_state=42):
+    """
+    Performs a stratified train/test split and then undersamples the majority
+    class in BOTH the resulting train and test sets to achieve a 1:1 ratio.
+
+    Args:
+        df (pd.DataFrame): The input DataFrame.
+        target_column (str): The name of the binary target column (e.g., 'HOSPITAL_EXPIRE_FLAG').
+        test_size (float): The proportion of the dataset to include in the test split.
+        random_state (int): Seed for reproducibility.
+
+    Returns:
+        tuple: (df_train_balanced, df_test_balanced)
+    """
+    # 1. Initial Stratified Split
+    df_train_orig, df_test_orig = train_test_split(
+        df,
+        test_size=test_size,
+        random_state=random_state,
+        stratify=df[target_column]
+    )
+
+    def undersample_set(data_set):
+        """Helper function to undersample a single DataFrame."""
+        # Find class counts
+        counts = data_set[target_column].value_counts()
+        minority_class = counts.idxmin()
+        minority_count = counts.min()
+
+        # Separate classes
+        df_minority = data_set[data_set[target_column] == minority_class]
+        df_majority = data_set[data_set[target_column] != minority_class]
+
+        # Undersample majority class
+        df_majority_undersampled = df_majority.sample(
+            n=minority_count,
+            random_state=random_state,
+            replace=False
+        )
+
+        # Combine and return the balanced set
+        return pd.concat([df_majority_undersampled, df_minority]).sample(
+            frac=1, random_state=random_state
+        ).reset_index(drop=True)
+
+    # 2. Apply Undersampling to BOTH train and test sets
+    df_train_balanced = undersample_set(df_train_orig)
+    df_test_balanced = undersample_set(df_test_orig)
+
+    return df_train_balanced, df_test_balanced
 
 
 def str_to_list(x):

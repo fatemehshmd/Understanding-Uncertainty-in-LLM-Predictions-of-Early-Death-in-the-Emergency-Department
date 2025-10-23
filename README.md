@@ -14,8 +14,11 @@ This repository contains the full pipeline to reproduce the results from our stu
 - A Python script that formats the extracted notes and sends them as zero-shot prompts to GPT-4o.
 - Handles API communication, prompt construction, and output parsing for mortality prediction.
 
+### 3. `conformal-prediction-utils.py`
+- Utility functions for conformal prediction analysis with LLM predictions. 
 
-### 3. `Final_Conformal_Prediction_repo.ipynb`
+
+### 4. `Final_Conformal_Prediction_repo.ipynb`
 - Implements conformal prediction to quantify uncertainty in GPT-4o predictions.
 - Calculates nonconformity scores and generates calibrated prediction sets.
 - Evaluates empirical coverage, class-specific performance, and analyzes overconfidence patterns.

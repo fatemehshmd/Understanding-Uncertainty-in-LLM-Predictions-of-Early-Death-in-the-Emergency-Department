@@ -1,4 +1,4 @@
-# Understanding Uncertainty in Large Language Model Predictions of Early Death in Critically Ill Patients: A Conformal Prediction Approach 
+# Understanding uncertainty in large language model predictions of early death in critically ill patients: a conformal prediction approach 
 
 
 This repository contains the full pipeline to reproduce the results from our study on quantifying uncertainty in GPT-4o predictions of in-hospital death using conformal prediction. The work utilizes unstructured clinical notes from ICU for the patients initiallt admitted to ED and applies large language models (LLMs) for early prediction of in-hospital death, with uncertainty calibration through conformal prediction.
